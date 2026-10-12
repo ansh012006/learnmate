@@ -13,7 +13,7 @@ class LLMService:
     def __init__(self):
         self.api_key = os.getenv("GROQ_API_KEY")
         self.client = Groq(api_key=self.api_key) if self.api_key else None
-        self.model = os.getenv("LLM_MODEL", "llama-3.1-70b-versatile")
+        self.model = os.getenv("LLM_MODEL", "openai/gpt-oss-120b")
         self._context: Dict[str, List[Dict]] = {}  # session_id -> messages
 
     def _need_key(self):
