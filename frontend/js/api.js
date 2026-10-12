@@ -3,12 +3,15 @@ const API_BASE = window.__API_BASE__ || window.location.origin;
 const Api = {
     async request(endpoint, options = {}) {
         const url = `${API_BASE}/api/v1${endpoint}`;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 90000);
         const config = {
             headers: {
                 'Content-Type': 'application/json',
                 ...options.headers,
             },
             ...options,
+            signal: controller.signal,
         };
 
         if (config.body && typeof config.body === 'object' && !(config.body instanceof FormData)) {
@@ -17,6 +20,7 @@ const Api = {
 
         try {
             const response = await fetch(url, config);
+            clearTimeout(timer);
             const data = await response.json();
 
             if (!response.ok) {
@@ -25,6 +29,8 @@ const Api = {
 
             return data;
         } catch (error) {
+            clearTimeout(timer);
+            if (error.name === 'AbortError') throw new Error('Request timed out — server may be waking up, please retry.');
             console.error(`API Error [${endpoint}]:`, error);
             throw error;
         }
