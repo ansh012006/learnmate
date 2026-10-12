@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnMate AI — Learn Smarter. Practice Better. Achieve More.</title>
+    <meta name="description" content="AI-Powered Study Assistant - Upload documents, ask questions, analyze PYQs, generate quizzes, and plan your studies.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Mobile sidebar toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle navigation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">LM</div>
+            <div>
+                <div class="logo-text">LearnMate AI</div>
+                <div class="logo-tagline">Learn Smarter</div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Main</div>
+            <button class="nav-link active" data-page="dashboard">
+                <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></span>
+                Dashboard
+            </button>
+            <button class="nav-link" data-page="chat">
+                <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
+                AI Chat
+            </button>
+            <button class="nav-link" data-page="documents">
+                <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></span>
+                Documents
+            </button>
+
+            <div class="nav-section-title">Study Tools</div>
+            <button class="nav-link" data-page="pyq">
+                <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span>
+                PYQ Analyzer
+            </button>
+            <button class="nav-link" data-page="quiz">
+                <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+                Quiz Generator
+            </button>
+            <button class="nav-link" data-page="planner">
+                <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                Study Planner
+            </button>
+            <button class="nav-link" data-page="analytics">
+                <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span>
+                Analytics
+            </button>
+        </nav>
+        <div class="sidebar-footer">
+            LearnMate AI v1.0
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- DASHBOARD PAGE -->
+        <section class="page-section active" id="page-dashboard">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Welcome back! Here's your learning overview.</p>
+            </div>
+            <div class="page-body">
+                <div class="stats-grid" id="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+                        <div><div class="stat-value" id="stat-docs">0</div><div class="stat-label">Documents</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
+                        <div><div class="stat-value" id="stat-questions">0</div><div class="stat-label">PYQ Questions</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+                        <div><div class="stat-value" id="stat-quizzes">0</div><div class="stat-label">Quizzes Taken</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+                        <div><div class="stat-value" id="stat-tasks">0</div><div class="stat-label">Tasks Completed</div></div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header"><div class="card-title">Recent Activity</div></div>
+                        <div id="dashboard-activity">
+                            <div class="empty-state">
+                                <p>No activity yet. Start by uploading documents or asking questions!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><div class="card-title">Quick Actions</div></div>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <button class="btn btn-primary" onclick="navigateTo('chat')">Ask AI a Question</button>
+                            <button class="btn btn-outline" onclick="navigateTo('documents')">Upload Study Material</button>
+                            <button class="btn btn-outline" onclick="navigateTo('pyq')">Analyze PYQs</button>
+                            <button class="btn btn-outline" onclick="navigateTo('quiz')">Take a Quiz</button>
+                            <button class="btn btn-outline" onclick="navigateTo('planner')">Plan Your Studies</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI CHAT PAGE -->
+        <section class="page-section" id="page-chat">
+            <div class="page-header">
+                <h1>AI Chat Assistant</h1>
+                <p>Ask questions and get explanations from your study materials.</p>
+            </div>
+            <div class="page-body">
+                <div class="chat-container" id="chatContainer">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-message assistant">
+                            <div class="message-avatar">AI</div>
+                            <div class="message-content">
+                                <p>Hello! I'm your AI study assistant. You can ask me anything about your studies - no document upload required.</p>
+                                <p>Upload documents if you want answers based on your specific materials, or just ask general questions directly!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <button class="chat-mode-btn" id="chatModeBtn" onclick="Chat.toggleMode()" title="Toggle between general knowledge and document-based answers">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                            General
+                        </button>
+                        <textarea class="form-input" id="chatInput" rows="1" placeholder="Ask me anything about your studies..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
+                        <button class="chat-send-btn" onclick="sendMessage()" title="Send message">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DOCUMENTS PAGE -->
+        <section class="page-section" id="page-documents">
+            <div class="page-header">
+                <h1>Documents</h1>
+                <p>Upload and manage your study materials.</p>
+            </div>
+            <div class="page-body">
+                <div class="card mb-3">
+                    <div class="upload-area" id="docUploadArea">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        </div>
+                        <div class="upload-text">Drop your files here or click to browse</div>
+                        <div class="upload-hint">Supports PDF, TXT, DOCX (max 50MB)</div>
+                    </div>
+                    <input type="file" id="docFileInput" accept=".pdf,.txt,.docx,.doc" class="hidden">
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Uploaded Documents</div>
+                        <span class="text-muted" id="docCount" style="font-size:13px;">0 files</span>
+                    </div>
+                    <div id="docList" class="doc-list">
+                        <div class="empty-state">
+                            <p>No documents uploaded yet. Upload your study materials to get started.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PYQ ANALYZER PAGE -->
+        <section class="page-section" id="page-pyq">
+            <div class="page-header">
+                <h1>PYQ Analyzer</h1>
+                <p>Upload previous year question papers and discover important topics.</p>
+            </div>
+            <div class="page-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-title mb-2">Upload Question Paper</div>
+                        <div class="upload-area" id="pyqUploadArea" style="padding:24px;">
+                            <div class="upload-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                            </div>
+                            <div class="upload-text">Upload a question paper (PDF)</div>
+                            <div class="upload-hint">The system will extract and analyze all questions</div>
+                        </div>
+                        <input type="file" id="pyqFileInput" accept=".pdf" class="hidden">
+                    </div>
+                    <div class="card" id="pyqResults">
+                        <div class="card-title mb-2">Analysis Results</div>
+                        <div class="empty-state">
+                            <p>Upload a question paper to see analysis results here.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-2" id="pyqTopicsCard" style="display:none;">
+                    <div class="card-header">
+                        <div class="card-title">Topic Frequency</div>
+                    </div>
+                    <div id="pyqTopics"></div>
+                </div>
+                <div class="card mt-2" id="pyqPatternsCard" style="display:none;">
+                    <div class="card-header">
+                        <div class="card-title">Question Patterns</div>
+                    </div>
+                    <div id="pyqPatterns" class="pattern-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ PAGE -->
+        <section class="page-section" id="page-quiz">
+            <div class="page-header">
+                <h1>Quiz Generator</h1>
+                <p>Test your knowledge with AI-generated quizzes.</p>
+            </div>
+            <div class="page-body">
+                <div id="quizSetup">
+                    <div class="card" style="max-width:520px;margin:0 auto;">
+                        <div class="card-header"><div class="card-title">Create a Quiz</div></div>
+                        <div class="form-group">
+                            <label class="form-label">Topic</label>
+                            <input type="text" class="form-input" id="quizTopic" placeholder="e.g., Photosynthesis, Data Structures">
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Number of Questions</label>
+                                <select class="form-select" id="quizNumQuestions">
+                                    <option value="3">3 Questions</option>
+                                    <option value="5" selected>5 Questions</option>
+                                    <option value="10">10 Questions</option>
+                                    <option value="15">15 Questions</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Difficulty</label>
+                                <select class="form-select" id="quizDifficulty">
+                                    <option value="easy">Easy</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="hard">Hard</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary w-full" onclick="generateQuiz()">Generate Quiz</button>
+                    </div>
+                </div>
+                <div id="quizActive" class="quiz-container hidden">
+                    <div class="flex-between mb-2">
+                        <div class="card-subtitle" id="quizProgress"></div>
+                        <button class="btn btn-outline btn-sm" onclick="endQuiz()">End Quiz</button>
+                    </div>
+                    <div id="quizQuestions"></div>
+                    <button class="btn btn-primary w-full mt-2" onclick="submitQuiz()">Submit Answers</button>
+                </div>
+                <div id="quizResult" class="hidden">
+                    <div class="quiz-result-card" id="quizResultCard"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STUDY PLANNER PAGE -->
+        <section class="page-section" id="page-planner">
+            <div class="page-header">
+                <h1>Study Planner</h1>
+                <p>Organize your study goals and track your progress.</p>
+            </div>
+            <div class="page-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header"><div class="card-title">Add New Task</div></div>
+                        <div class="form-group">
+                            <label class="form-label">Task Title</label>
+                            <input type="text" class="form-input" id="taskTitle" placeholder="e.g., Complete Chapter 5 notes">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Subject</label>
+                            <input type="text" class="form-input" id="taskSubject" placeholder="e.g., Mathematics">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Topic (optional)</label>
+                            <input type="text" class="form-input" id="taskTopic" placeholder="e.g., Calculus">
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label class="form-label">Priority</label>
+                                <select class="form-select" id="taskPriority">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Est. Hours</label>
+                                <input type="number" class="form-input" id="taskHours" value="1" min="0.5" step="0.5">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Deadline (optional)</label>
+                            <input type="datetime-local" class="form-input" id="taskDeadline">
+                        </div>
+                        <button class="btn btn-primary w-full" onclick="addTask()">Add Task</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><div class="card-title">Summary</div></div>
+                        <div id="plannerSummary">
+                            <div class="empty-state">
+                                <p>No tasks yet. Add your first study task!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-2">
+                    <div class="card-header">
+                        <div class="card-title">All Tasks</div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-outline btn-sm" onclick="loadTasks('all')">All</button>
+                            <button class="btn btn-outline btn-sm" onclick="loadTasks('pending')">Pending</button>
+                            <button class="btn btn-outline btn-sm" onclick="loadTasks('in_progress')">In Progress</button>
+                            <button class="btn btn-outline btn-sm" onclick="loadTasks('completed')">Completed</button>
+                        </div>
+                    </div>
+                    <div id="taskList" class="task-list">
+                        <div class="empty-state">
+                            <p>No tasks yet. Create your first study task!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANALYTICS PAGE -->
+        <section class="page-section" id="page-analytics">
+            <div class="page-header">
+                <h1>Analytics</h1>
+                <p>Track your learning progress and performance.</p>
+            </div>
+            <div class="page-body">
+                <div class="stats-grid" id="analytics-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+                        <div><div class="stat-value" id="ana-docs">0</div><div class="stat-label">Documents</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></line></svg></div>
+                        <div><div class="stat-value" id="ana-avg-score">0%</div><div class="stat-label">Avg Quiz Score</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+                        <div><div class="stat-value" id="ana-completion">0%</div><div class="stat-label">Task Completion</div></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
+                        <div><div class="stat-value" id="ana-chats">0</div><div class="stat-label">Weekly Chats</div></div>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="chart-container">
+                        <h3>Quiz Performance</h3>
+                        <div class="chart-wrapper"><canvas id="quizChart"></canvas></div>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Study Tasks</h3>
+                        <div class="chart-wrapper"><canvas id="taskChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <span class="text-muted" id="loadingText">Processing...</span>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Task Modal -->
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="taskModalTitle">Edit Task</h3>
+                <button class="modal-close" onclick="closeModal('taskModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editTaskId">
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-input" id="editTaskTitle">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="editTaskStatus">
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('taskModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveTaskEdit()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>window.__API_BASE__ = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? location.origin : "https://learnmate-backend.onrender.com";</script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/documents.js"></script>
+    <script src="js/pyq.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/planner.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

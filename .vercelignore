@@ -1,0 +1,16 @@
+venv/
+__pycache__/
+*.pyc
+*.db
+*.sqlite*
+uploads/*
+backend/
+docker/
+.git/
+.env
+learnmate.db
+requirements.txt
+render.yaml
+docker-compose.yml
+deploy.bat
+deploy.sh

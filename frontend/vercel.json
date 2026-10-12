@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/v1/:path*", "destination": "https://learnmate-ai.onrender.com/api/v1/:path*" },
+    { "source": "/uploads/:path*", "destination": "https://learnmate-ai.onrender.com/uploads/:path*" }
+  ]
+}
