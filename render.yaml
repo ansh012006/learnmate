@@ -19,7 +19,7 @@ services:
       - key: ENVIRONMENT
         value: production
       - key: CORS_ORIGINS
-        value: https://learnmate-ai.vercel.app,https://learnmate-ai-ansh-agarwal.vercel.app
+        value: https://learnmate-ai-gamma.vercel.app,https://learnmate-ai.vercel.app,https://learnmate-ai-wgbu.onrender.com
       - key: UPLOAD_DIR
         value: ./uploads
       - key: CHUNK_SIZE
@@ -29,4 +29,4 @@ services:
       - key: EMBEDDING_MODEL
         value: sentence-transformers/all-MiniLM-L6-v2
       - key: LLM_MODEL
-        value: llama-3.3-70b-versatile
+        value: llama-3.1-70b-versatile
